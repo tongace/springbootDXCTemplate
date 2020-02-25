@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dxc.application.mybatis.mapper.CommonMapper">
+	<select id="getDBDateTime" resultType="java.util.Date">
+		SELECT SYSDATE FROM DUAL
+	</select>
+	<select id="getGimTypeCombo" resultType="com.dxc.application.model.Combo">
+		SELECT GIM_TYPE as value, GIM_TYPE as name 
+		FROM TB_M_GIM_H 
+		ORDER BY GIM_TYPE
+	</select>
+	<select id="getActiveFlagCombo" resultType="com.dxc.application.model.Combo" parameterType="map">
+		SELECT GIM_CD as value, GIM_CD||':'||GIM_VALUE as name 
+		FROM TB_M_GIM_D 
+		WHERE GIM_TYPE='ACTIVE_FLAG' 
+			AND ACTIVE_FLAG = #{activeFlag}
+		ORDER BY TO_NUMBER(FIELD1)
+	</select>
+</mapper>

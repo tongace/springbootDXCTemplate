@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="templates/template.html :: app_header(~{::script},~{})">
+	<script th:src="@{/home/js/home.js}"></script>
+</head>
+
+<body>
+	<div th:replace="templates/template.html :: app_menu"></div>
+	<div th:replace="templates/template.html :: app_page_header(#{DXC.WDXC0000.Screen.Id} ,#{DXC.WDXC0000.Screen.Desc})"></div>
+	<div th:replace="templates/template.html :: app_page_footer"></div>
+	<div class="pusher">
+		<div class="ui fluid container" style="margin-top: 5rem; margin-bottom: 10rem; padding-left: 1rem; padding-right: 1rem;">
+			<div class="ui grid">
+				<!--content for messageBar dimmer modal-->
+				<div th:replace="templates/template.html :: app_page_confirmModal"></div>
+				<div th:replace="templates/template.html :: app_page_alertModal"></div>
+				<!--end content for messageBar dimmer modal-->
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

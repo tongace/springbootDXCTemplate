@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dxc.application.mybatis.mapper.GIMMasterMapper">
+	<select id="findGimHeader" resultType="com.dxc.application.model.GimHeader" parameterType="com.dxc.application.model.GimHeader">
+		SELECT GIM_TYPE,
+			GIM_DESC,
+			CD_LENGTH,
+			FIELD1_LABEL,
+			FIELD2_LABEL,
+			FIELD3_LABEL,
+			ACTIVE_FLAG,
+			(SELECT GIM_VALUE
+			   FROM TB_M_GIM_D
+			  WHERE GIM_TYPE = 'ACTIVE_FLAG' AND GIM_CD = GIMH.ACTIVE_FLAG)
+			    AS DISPLAY_ACTIVE_FLAG,
+			CREATED_BY,
+			CREATED_DT,
+			MODIFIED_BY,
+			MODIFIED_DT
+		FROM TB_M_GIM_H GIMH
+		<where>
+			<if test="@org.apache.commons.lang3.ArrayUtils@isNotEmpty(searchGimTypes)">
+				AND GIM_TYPE IN 
+                <foreach item="item" index="index" collection="searchGimTypes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+			</if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchGimDesc)">
+                AND UPPER(GIM_DESC) LIKE UPPER(REPLACE(#{searchGimDesc},'*','%'))
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchActiveFlag) and !@org.apache.commons.lang3.StringUtils@equalsIgnoreCase(searchActiveFlag,'ALL')">
+                AND ACTIVE_FLAG =#{searchActiveFlag}
+            </if>
+		</where>
+		ORDER BY GIM_TYPE
+	</select>
+	<select id="findGimHeaderByPrimaryKey" resultType="com.dxc.application.model.GimHeader" parameterType="map">
+		SELECT GIM_TYPE,
+			GIM_DESC,
+			CD_LENGTH,
+			FIELD1_LABEL,
+			FIELD2_LABEL,
+			FIELD3_LABEL,
+			ACTIVE_FLAG,
+			(SELECT GIM_VALUE
+			   FROM TB_M_GIM_D
+			  WHERE GIM_TYPE = 'ACTIVE_FLAG' AND GIM_CD = GIMH.ACTIVE_FLAG) AS DISPLAY_ACTIVE_FLAG,
+			CREATED_BY,
+			CREATED_DT,
+			MODIFIED_BY,
+			MODIFIED_DT
+	  	FROM TB_M_GIM_H GIMH
+	 	WHERE GIM_TYPE = UPPER (#{gimType})
+	</select>
+	<insert id="saveGimHeader" parameterType="com.dxc.application.model.GimHeader">
+        INSERT INTO TB_M_GIM_H (GIM_TYPE,
+                        GIM_DESC,
+                        CD_LENGTH,
+                        FIELD1_LABEL,
+                        FIELD2_LABEL,
+                        FIELD3_LABEL,
+                        ACTIVE_FLAG,
+                        CREATED_BY,
+                        CREATED_DT,
+                        MODIFIED_BY,
+                        MODIFIED_DT)
+        VALUES (UPPER ( #{gimType}),
+                #{gimDesc},
+                #{cdLength},
+                #{field1Label},
+                #{field2Label},
+                #{field3Label},
+                #{activeFlag},
+                #{createdBy},
+                SYSDATE,
+                #{modifiedBy},
+                SYSDATE)
+    </insert>
+    <update id="updateGimHeader" parameterType="com.dxc.application.model.GimHeader">
+        UPDATE TB_M_GIM_H
+            SET GIM_DESC = #{gimDesc},
+                CD_LENGTH = #{cdLength},
+                FIELD1_LABEL = #{field1Label},
+                FIELD2_LABEL = #{field2Label},
+                FIELD3_LABEL = #{field3Label},
+                ACTIVE_FLAG = #{activeFlag},
+                MODIFIED_BY = #{modifiedBy},
+                MODIFIED_DT = SYSDATE
+        WHERE GIM_TYPE = #{gimType} 
+            AND MODIFIED_DT = #{modifiedDt}
+    </update>
+    <update id="updateActiveFlagOfGimDetailByGimHeaderActiveFlag" parameterType="com.dxc.application.model.GimHeader">
+        UPDATE TB_M_GIM_D
+            SET ACTIVE_FLAG = #{activeFlag},
+                MODIFIED_BY = #{modifiedBy},
+                MODIFIED_DT = SYSDATE
+        WHERE GIM_TYPE = #{gimType}
+    </update>
+    <select id="findGimDetail" resultType="com.dxc.application.model.GimDetail" parameterType="com.dxc.application.model.GimDetail">
+        SELECT GIM_TYPE,
+            GIM_CD,
+            GIM_VALUE,
+            FIELD1,
+            FIELD2,
+            FIELD3,
+            ACTIVE_FLAG,
+            (SELECT GIM_VALUE
+                FROM TB_M_GIM_D
+                WHERE GIM_TYPE = 'ACTIVE_FLAG' AND GIM_CD = GIMD.ACTIVE_FLAG) AS DISPLAY_ACTIVE_FLAG,
+            CREATED_BY,
+            CREATED_DT,
+            MODIFIED_BY,
+            MODIFIED_DT
+        FROM TB_M_GIM_D GIMD
+        <where>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(gimType)">
+                AND GIM_TYPE =#{gimType}
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(gimCd)">
+                AND UPPER(GIM_CD) = UPPER(#{gimCd})
+            </if>
+        </where>
+        ORDER BY GIM_TYPE,GIM_CD
+    </select>
+    <select id="findGimDetailByPrimaryKey" resultType="com.dxc.application.model.GimDetail" parameterType="com.dxc.application.model.GimDetail">
+        SELECT GIM_TYPE,
+        GIM_CD,
+        GIM_VALUE,
+        FIELD1,
+        FIELD2,
+        FIELD3,
+        ACTIVE_FLAG,
+        (SELECT GIM_VALUE
+            FROM TB_M_GIM_D
+            WHERE GIM_TYPE = 'ACTIVE_FLAG' AND GIM_CD = GIMD.ACTIVE_FLAG)  AS DISPLAY_ACTIVE_FLAG,
+        CREATED_BY,
+        CREATED_DT
+        MODIFIED_BY,
+        MODIFIED_DT
+        FROM TB_M_GIM_D GIMD
+        WHERE GIM_TYPE = UPPER (#{gimType}) AND GIM_CD = UPPER (#{gimCd})
+    </select>
+    <insert id="saveGimDetail" parameterType="com.dxc.application.model.GimDetail">
+        INSERT INTO TB_M_GIM_D (GIM_TYPE,
+                        GIM_CD,
+                        GIM_VALUE,
+                        FIELD1,
+                        FIELD2,
+                        FIELD3,
+                        ACTIVE_FLAG,
+                        CREATED_BY,
+                        CREATED_DT,
+                        MODIFIED_BY,
+                        MODIFIED_DT)
+        VALUES (UPPER (#{gimType}),
+            UPPER (#{gimCd}),
+            #{gimValue},
+            #{field1},
+            #{field2},
+            #{field3},
+            #{activeFlag},
+            #{createdBy},
+            SYSDATE,
+            #{modifiedBy},
+            SYSDATE)
+    </insert>
+    <update id="updateActiveFlagOfGimHeaderByGimDetailActiveFlag" parameterType="com.dxc.application.model.GimHeader">
+        UPDATE TB_M_GIM_H
+        SET ACTIVE_FLAG = #{activeFlag},
+            MODIFIED_BY = #{modifiedBy},
+            MODIFIED_DT = SYSDATE
+        WHERE GIM_TYPE = UPPER (#{gimType})
+    </update>
+    <update id="updateGimDetail" parameterType="com.dxc.application.model.GimDetail">
+        UPDATE TB_M_GIM_D
+        SET GIM_VALUE = #{gimValue},
+            FIELD1 = #{field1},
+            FIELD2 = #{field2},
+            FIELD3 = #{field3},
+            ACTIVE_FLAG = #{activeFlag},
+            MODIFIED_BY = #{modifiedBy},
+            MODIFIED_DT = SYSDATE
+        WHERE     GIM_TYPE = UPPER ( #{gimType})
+            AND GIM_CD = UPPER ( #{gimCd})
+            AND MODIFIED_DT = #{modifiedDt}
+    </update>
+    <delete id="deleteGimDetailByKeys" parameterType="com.dxc.application.model.GimDetail">
+        DELETE FROM TB_M_GIM_D
+        WHERE     GIM_TYPE = UPPER (#{gimType})
+                AND GIM_CD = UPPER (#{gimCd})
+                AND MODIFIED_DT = #{modifiedDt}
+    </delete>
+</mapper>

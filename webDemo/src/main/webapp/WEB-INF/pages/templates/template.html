@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="app_header(scripts,links)">
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="icon" type="image/ico" th:href="@{/images/logo.ico}" />
+    <title>[[#{DXC.Title}]]</title>
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/Semantic-UI/semantic.min.js}"></script>
+    <script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/webjars/datatables/js/dataTables.semanticui.min.js}"></script>
+    <script th:src="@{/webjars/moment/min/moment.min.js}"></script>
+    <script th:src="@{/webjars/numeral/min/numeral.min.js}"></script>
+    <script th:src="@{/scripts/string.js}"></script>
+    <script th:src="@{/scripts/underscore.js}"></script>
+    <script th:src="@{/scripts/datetime-moment.js}"></script>
+    <script th:src="@{/scripts/p-loading.js}"></script>
+    <script th:src="@{/scripts/pl-spinkit.js}"></script>
+    <script th:src="@{/scripts/browserDetection.js}"></script>
+    <!-- DXC Utils -->
+    <script th:src="@{/scripts/DXCUtils.js}"></script>
+    <!-- script for template -->
+    <script th:src="@{/scripts/template.js}"></script>
+    <!-- script for child -->
+    <th:block th:replace="${scripts}" />
+
+    <link th:href="@{/webjars/Semantic-UI/semantic.min.css}" rel='stylesheet' />
+    <link th:href="@{/webjars/datatables/css/dataTables.semanticui.min.css}" rel='stylesheet' />
+    <link th:href="@{/css/font.css}" rel='stylesheet' />
+    <link th:href="@{/css/dxc_style.css}" rel='stylesheet' />
+    <link th:href="@{/css/p-loading.css}" rel='stylesheet' />
+    <link th:href="@{/css/pl-spinkit.css}" rel='stylesheet' />
+    <link th:href="@{/css/spinkit.css}" rel='stylesheet' />
+
+    <th:block th:replace="${links}" />
+
+</head>
+
+<body>
+    <div class="ui inverted sidebar vertical menu" th:fragment="app_menu" id="app_menu">
+        <div class="item" data-tagtype="menugroup">
+            <h3>[[#{DXC.SystemName}]]</h3>
+        </div>
+        <div id="WDXC0000" class="menu" data-tagtype="menugroup">
+            <a class="item" href="/demo/gimmaster" data-tagtype="menuitem">
+                <span class="text">
+                    <i class="ui big home icon"></i>
+                </span>
+            </a>
+        </div>
+        <div id="DXC001" class="item" data-tagtype="menugroup" data-auth="no">
+            <a href="#" onclick="return DXCUtils.toggleGroupMenu(this)">
+                <span class="text">[[#{DXC.Menu.Maintenance.Group.Name}]]</span>
+            </a>
+            <div class="menu">
+                <a id="WDXC0011" class="item" data-tagtype="menuitem" data-auth="no" href="/demo/gimmaster">[[#{DXC.Menu.GIM.Name}]]</a>
+            </div>
+        </div>
+    </div>
+    <div class="ui black mini top fixed inverted borderless menu" th:fragment="app_page_header(screenid,screenDesc)">
+        <div class="left item">
+            <div class="ui black mini button" id="menucaller">
+                <i class="content icon"></i> [[#{DXC.Button.Menu}]]
+            </div>
+            <span class="screenid">[[${screenid}]]: [[${screenDesc}]]</span>
+            <input type="hidden" id="currentScreenId" th:value="${screenid}">
+        </div>
+        <div class="right item">
+            <div style="padding-left: 2rem; pointer-events: none;">
+                <i class="user icon"></i>
+                <span class="userinfo">demo user</span>
+            </div>
+        </div>
+    </div>
+    <div class="ui black mini bottom fixed inverted borderless menu" th:fragment="app_page_footer">
+        <div class="left item">
+            <span></span>
+        </div>
+        <div class="center item">
+            <SPAN class="footer">[[#{DXC.Footer}]]</SPAN>
+        </div>
+        <div class="right item">
+            <SPAN class="time"></SPAN>
+        </div>
+    </div>
+    <div class="pusher">
+        <div class="ui fluid container" style="margin-top: 4rem; margin-bottom: 4rem; padding-left: 1rem; padding-right: 1rem;">
+            Hello DXC Template
+            <div class="ui mini modal" id="confirmingModal" th:fragment="app_page_confirmModal">
+                <div class="ui header">
+                </div>
+                <div class="content">
+                </div>
+                <div class="actions">
+                    <div class="ui center floated positive button">
+                        <i class="checkmark icon"></i> [[#{DXC.Button.Yes}]]
+                    </div>
+                    <div class="ui center floated negative button">
+                        <i class="remove icon"></i> [[#{DXC.Button.No}]]
+                    </div>
+                </div>
+            </div>
+            <div class="ui mini modal" id="alertModal" th:fragment="app_page_alertModal">
+                <div class="ui black header">
+                </div>
+                <div class="content">
+                </div>
+                <div class="actions">
+                    <div class="ui center floated button" id="modalButtonOK">
+                        <i class="checkmark icon"></i> [[#{DXC.Button.OK}]]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

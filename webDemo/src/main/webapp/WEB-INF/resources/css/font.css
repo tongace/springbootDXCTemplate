@@ -1,0 +1,123 @@
+html {
+    font-family: "Lato";
+    font-size: 13px;
+}
+
+body {
+    font-family: "Lato";
+    font-size: 13px;
+}
+
+.ui-widget {
+    font-family: "Lato";
+    font-size: 13px;
+}
+
+* {
+    font-family: "Lato";
+}
+
+h1 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h2 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h3 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h4 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h5 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h6 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h7 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+h2 {}
+
+h3 {
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+strong {
+    font-size: 12px;
+}
+
+label {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.normal-size {
+    font-size: 12px;
+}
+
+input.ui-state-default.button {
+    font-size: 12px;
+}
+
+.fht-table thead tr {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+table.dataTable thead tr th {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+table.dataTable tbody tr td {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.application {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.userinfo {
+    font-size: 0.9rem;
+    font-weight: bolder;
+}
+
+.screenid {
+    margin-left: 2rem;
+    font-size: 0.9rem;
+    font-weight: bolder;
+}
+
+.time {
+    font-size: 0.9rem;
+    font-weight: bolder;
+}
+
+.footer {
+    font-size: 0.9rem;
+    font-weight: bolder;
+}

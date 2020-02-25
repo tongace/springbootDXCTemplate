@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="templates/template.html :: app_header(~{::script},~{})">
+    <script th:src="@{/gimmaster/js/gimmaster.js}"></script>
+</head>
+
+<body>
+    <div th:replace="templates/template.html :: app_menu"></div>
+    <div th:replace="templates/template.html :: app_page_header(#{DXC.WDXC0001.Screen.Id} ,#{DXC.WDXC0001.Screen.Desc})">
+    </div>
+    <div th:replace="templates/template.html :: app_page_footer"></div>
+    <div class="pusher">
+        <div class="ui fluid container" style="margin-top: 5rem; margin-bottom: 10rem; padding-left: 1rem; padding-right: 1rem;">
+            <div class="ui grid">
+                <!--content for messageBar dimmer modal-->
+                <div th:replace="templates/template.html :: app_page_confirmModal"></div>
+                <div th:replace="templates/template.html :: app_page_alertModal"></div>
+                <!--end content for messageBar dimmer modal-->
+                <div id="gimHeaderSearchSection" style="width:100%;">
+                    <div class="sixteen wide column row">
+                        <form class="ui form raised segment" id="gimHeaderForm" style="width: 100%;">
+                            <div class="fields">
+                                <div class="four wide field">
+                                    <label>[[#{DXC.WDXC0001.Label.Type}]]</label>
+                                    <select class="ui mini fluid search selection dropdown" multiple="multiple" name="searchGimTypes" style="width: 80%">
+                                    </select>
+                                </div>
+                                <div class="six wide field">
+                                    <label>[[#{DXC.WDXC0001.Label.Desc}]]</label>
+                                    <div class="ui mini basic input">
+                                        <input type="text" name="searchGimDesc">
+                                    </div>
+                                </div>
+                                <div class="three wide field">
+                                    <label>[[#{DXC.WDXC0001.Label.ActiveFlag}]]</label>
+                                    <select class="ui mini search selection dropdown" name="searchActiveFlag">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="three fields">
+                                <div class="field"></div>
+                                <div class="field"></div>
+                                <div class="field" id="buttonPanel" style="text-align: right;">
+                                    <div class="ui active mini button" id="WDXC0001Search" data-auth="no"><i class="search icon"></i>[[#{DXC.Button.Search}]]</div>
+                                    <div class="ui active mini button" id="WDXC0001Clear" data-auth="no"><i class="paint brush icon"></i>[[#{DXC.Button.Clear}]]</div>
+                                    <div class="ui active mini button" id="WDXC0001Add" data-auth="no"><i class="add icon"></i>[[#{DXC.Button.Add}]]</div>
+                                    <div class="ui active mini button" id="WDXC0001Edit" data-auth="no"><i class="write brush icon"></i>[[#{DXC.Button.Edit}]]</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui clearing hidden divider"></div>
+                    <div class="sixteen wide column row" id="searchResultSection" style="display: none;">
+                        <h4 class="ui dividing header">[[#{DXC.WDXC0001.Screen.Modal.Header}]]</h4>
+                        <table id="tableGimTypeHeaderResult" class="ui celled striped unstackable table" style="width:100%;">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th></th>
+                                    <th>[[#{DXC.WDXC0001.Label.Type}]]</th>
+                                    <th>[[#{DXC.WDXC0001.Label.Desc}]]</th>
+                                    <th>[[#{DXC.WDXC0001.Label.CodeLength}]]</th>
+                                    <th>[[#{DXC.WDXC0001.Label.Field1}]]</th>
+                                    <th>[[#{DXC.WDXC0001.Label.Field2}]]</th>
+                                    <th>[[#{DXC.WDXC0001.Label.Field3}]]</th>
+                                    <th>[[#{DXC.WDXC0001.Label.ActiveFlag}]]</th>
+                                    <th>[[#{DXC.Label.ModifiedBy}]]</th>
+                                    <th>[[#{DXC.Label.ModifiedDt}]]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--gim header edit -->
+                <div id="gimHeaderEditSection" style="width: 40%;display:none;">
+                    <div class="content">
+                        <div class="sixteen wide column row">
+                            <form class="ui form segment" id="editGimHeaderForm" style="width: 100%;">
+                                <h4 class="ui dividing header">[[#{DXC.WDXC0001.Screen.Modal.Header}]]</h4>
+                                <input type="hidden" id="mode" name="mode">
+                                <div class="field">
+                                    <label for="gimType">[[#{DXC.WDXC0001.Label.Type}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="gimType">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="gimDesc">[[#{DXC.WDXC0001.Label.Desc}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <textarea style="width: 100%; resize: none;" rows="10" name="gimDesc"></textarea>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="cdLength">[[#{DXC.WDXC0001.Label.CodeLength}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="cdLength">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field1Label">[[#{DXC.WDXC0001.Label.Field1}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="field1Label">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field2Label">[[#{DXC.WDXC0001.Label.Field2}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="field2Label">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field3Label">[[#{DXC.WDXC0001.Label.Field3}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="field3Label">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field3Label">[[#{DXC.WDXC0001.Label.ActiveFlag}]]</label>
+                                    <select class="ui mandatory mini search selection dropdown" name="activeFlag">
+                                    </select>
+                                    <input type="hidden" name="modifiedDt">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="ui clearing hidden divider"></div>
+                    <div class="actions" style="text-align: right;">
+                        <div class="ui active mini button" id="WDXC0001Save" data-auth="no"><i class="checkmark icon"></i>[[#{DXC.Button.Save}]]</div>
+                        <div class="ui active mini button" id="WDXC0001Cancel" data-auth="no"><i class="remove icon"></i>[[#{DXC.Button.Cancel}]]</div>
+                    </div>
+                </div>
+                <!--end gim header edit section-->
+                <!--GIM Detail Section-->
+                <div id="gimDetailSection" style="width:100%;display:none;">
+                    <div class="sixteen wide column row" style="text-align: right;">
+                        <div class="ui active mini button" id="WDXC0001AddDetail" data-auth="no"><i class="add icon"></i>[[#{DXC.Button.Add}]]</div>
+                        <div class="ui active mini button" id="WDXC0001EditDetail" data-auth="no"><i class="write brush icon"></i>[[#{DXC.Button.Edit}]]</div>
+                        <div class="ui active mini button" id="WDXC0001DeleteDetail" data-auth="no"><i class="remove icon"></i>[[#{DXC.Button.Delete}]]</div>
+                        <div style="display: none;" id="selectedGimHeaderDiv"></div>
+                    </div>
+                    <div class="ui clearing hidden divider"></div>
+                    <div class="sixteen wide column row">
+                        <div class="ui raised segment" style="width:100%;">
+                            <h4 class="ui dividing header">[[#{DXC.WDXC0001.Screen.Modal.Detail}]]</h4>
+                            <table id="tableGimDetailResult" class="ui celled striped unstackable table responsive" style="width:100%;">
+                                <thead>
+                                    <tr style="text-align: center;">
+                                        <th></th>
+                                        <th>[[#{DXC.WDXC0001.Label.Type}]]</th>
+                                        <th>[[#{DXC.WDXC0001.Label.Code}]]</th>
+                                        <th>[[#{DXC.WDXC0001.Label.Value}]]</th>
+                                        <th>[[#{DXC.WDXC0001.Label.Field1}]]</th>
+                                        <th>[[#{DXC.WDXC0001.Label.Field2}]]</th>
+                                        <th>[[#{DXC.WDXC0001.Label.Field3}]]</th>
+                                        <th>[[#{DXC.WDXC0001.Label.ActiveFlag}]]</th>
+                                        <th>[[#{DXC.Label.ModifiedBy}]]</th>
+                                        <th>[[#{DXC.Label.ModifiedDt}]]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="ui clearing hidden divider"></div>
+                    <div class="sixteen wide column row" style="text-align: right;">
+                        <div class="ui active mini button" id="WDXC0001Back" data-auth="no"><i class="step backward icon"></i>[[#{DXC.Button.Back}]]</div>
+                    </div>
+                </div>
+                <!--gim Detail edit -->
+                <div id="gimDetailEditSection" style="width: 40%;display:none;">
+                    <div class="content">
+                        <div class="sixteen wide column row">
+                            <form class="ui form segment" id="editGimDetailForm" style="width: 100%;">
+                                <h4 class="ui dividing header">[[#{DXC.WDXC0001.Screen.Modal.Detail}]]</h4>
+                                <input type="hidden" name="mode">
+                                <div class="field">
+                                    <label for="gimType">[[#{DXC.WDXC0001.Label.Type}]]</label>
+                                    <div class="ui mini basic mandatory readonly input">
+                                        <input type="text" name="gimType">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="gimCode" id="detailGimCodeLabel">[[#{DXC.WDXC0001.Label.Code}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="gimCd">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="gimValue">[[#{DXC.WDXC0001.Label.Value}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="gimValue">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field1" id="detailField1Label">[[#{DXC.WDXC0001.Label.Field1}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" name="field1">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field2" id="detailField2Label">[[#{DXC.WDXC0001.Label.Field2}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" id="field2" name="field2">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="field3" id="detailField3Label">[[#{DXC.WDXC0001.Label.Field3}]]</label>
+                                    <div class="ui mini basic mandatory input">
+                                        <input type="text" id="field3" name="field3">
+                                    </div>
+                                </div>
+                                <div class="three wide field">
+                                    <label for="activeFlag">[[#{DXC.WDXC0001.Label.ActiveFlag}]]</label>
+                                    <select id="detaiActiveFlag" class="ui mini mandatory search selection dropdown" name="activeFlag">
+                                    </select>
+                                    <input type="hidden" name="modifiedDt">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="ui clearing hidden divider"></div>
+                    <div class="actions" style="text-align: right;">
+                        <div class="ui active mini button" id="WDXC0001DetailSave" data-auth="no"><i class="checkmark icon"></i>[[#{DXC.Button.Save}]]</div>
+                        <div class="ui active mini button" id="WDXC0001DetailCancel" data-auth="no"><i class="remove icon"></i>[[#{DXC.Button.Cancel}]]</div>
+                    </div>
+                </div>
+                <!--end gim Detail edit section-->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

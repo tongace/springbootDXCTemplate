@@ -1,0 +1,4 @@
+.ui.inverted.menu .active.item {
+    background: rgba(255, 255, 255, 0.15);
+    color: red !important;
+}

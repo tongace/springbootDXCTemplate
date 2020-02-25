@@ -1,0 +1,15 @@
+.pl-spinkit-spinner {
+    /* original */
+    /* position: absolute;
+    top: 50%;
+    margin: 0 auto;
+    left: 0;
+    transform: translateY(-50%);
+    right: 0; */
+    /* espi */
+    top: 30%;
+    left: 50%;
+    margin-left: 0em;
+    position: fixed;
+    transform: translateY(-50%);
+}
